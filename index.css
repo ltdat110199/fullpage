@@ -330,3 +330,47 @@ Not supports in Firefox and IE */
 .fp-noscroll .fp-overflow {
   overflow: hidden;
 }/*# sourceMappingURL=index.css.map */
+
+.first-loading {
+  background-color: #38DBD0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: width 1s forwards;
+}
+
+body {
+  margin: 0;
+}
+
+@keyframes width {
+  0% {
+    margin: 0;
+  }
+  100% {
+    height: calc(100vh - 64px);
+    margin: 32px;
+    border-radius: 26px;
+  }
+}
+
+.second-loading {
+  animation: second-loading 1.2s forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+@keyframes second-loading {
+  /* Define the animation for the second-loading class */
+  0% {
+    /* Initial styles */
+    opacity: 0;
+    /* transform: scale(0); */
+  }
+  100% {
+    /* Final styles */
+    opacity: 1; 
+    /* transform: scale(1); */
+  }
+}
