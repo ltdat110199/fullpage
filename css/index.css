@@ -1,13 +1,7 @@
-/*!
- * fullPage 4.0.19
- * https://github.com/alvarotrigo/fullPage.js
- *
- * @license GPLv3 for open source use only
- * or Fullpage Commercial License for commercial use
- * http://alvarotrigo.com/fullPage/pricing/
- *
- * Copyright (C) 2021 http://alvarotrigo.com/fullPage - A project by Alvaro Trigo
- */
+body {
+  margin: 0 !important;
+}
+
 html.fp-enabled,
 .fp-enabled body {
   margin: 0;
@@ -28,7 +22,8 @@ html.fp-enabled,
   float: left;
 }
 
-.fp-slide, .fp-slidesContainer {
+.fp-slide,
+.fp-slidesContainer {
   height: 100%;
   display: block;
 }
@@ -39,13 +34,6 @@ html.fp-enabled,
   overflow: hidden;
   position: relative; /* Safari<=6 Android<=4.3 */
   transition: all 0.3s ease-out;
-}
-
-.fp-table {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
 }
 
 .fp-slidesContainer {
@@ -166,7 +154,7 @@ html.fp-enabled,
 .fp-slidesNav ul li:hover a.active span {
   height: 10px;
   width: 10px;
-  background: #00AA9F;
+  background: #00aa9f;
   border-radius: 100%;
 }
 
@@ -178,7 +166,7 @@ html.fp-enabled,
   height: 10px;
   width: 10px;
   border: 0;
-  background: #D9D9D9;
+  background: #d9d9d9;
   left: 50%;
   top: 50%;
   transition: all 0.1s ease-in-out;
@@ -290,7 +278,7 @@ html.fp-enabled,
 }
 
 /* Customize website's scrollbar like Mac OS
-Not supports in Firefox and IE */
+ Not supports in Firefox and IE */
 .fp-scroll-mac .fp-overflow::-webkit-scrollbar {
   background-color: transparent;
   width: 9px;
@@ -329,48 +317,120 @@ Not supports in Firefox and IE */
 
 .fp-noscroll .fp-overflow {
   overflow: hidden;
-}/*# sourceMappingURL=index.css.map */
+}
 
-.first-loading {
-  background-color: #38DBD0;
-  height: 100vh;
+.flex {
+  display: flex !important;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-end {
+  justify-content: end;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.gap-40 {
+  gap: 40px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.margin-x-88 {
+  margin-left: 88px;
+  margin-right: 88px;
+}
+
+.margin-y-22 {
+  margin-top: 22px;
+  margin-bottom: 22px;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.margin-x-8 {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.button {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  box-sizing: border-box;
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 24px;
+  width: 155px;
+  height: 48px;
+  /* Primary */
+  background: #38dbd0;
+  /* Primary */
+  border: 1px solid #38dbd0;
+  border-radius: 24px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 96px;
+  line-height: 140%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  animation: width 1s forwards;
+  letter-spacing: 0.5px;
 }
 
-body {
-  margin: 0;
+.sound {
+  width: 650px;
+  height: 650px;
 }
 
-@keyframes width {
-  0% {
-    margin: 0;
-  }
-  100% {
-    height: calc(100vh - 64px);
-    margin: 32px;
-    border-radius: 26px;
-  }
+.text {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 60px;
+  /* identical to box height */
+  letter-spacing: 0.5px;
+  position: absolute;
+  color: #646464;
 }
 
-.second-loading {
-  animation: second-loading 1.2s forwards;
-  animation-delay: 0.6s;
-  opacity: 0;
+.bottom {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
-@keyframes second-loading {
-  /* Define the animation for the second-loading class */
-  0% {
-    /* Initial styles */
-    opacity: 0;
-    /* transform: scale(0); */
-  }
-  100% {
-    /* Final styles */
-    opacity: 1; 
-    /* transform: scale(1); */
-  }
+.column {
+  flex-direction: column;
 }
+
+.flex-start {
+  justify-content: start;
+  align-items: flex-start;
+}/*# sourceMappingURL=index.css.map */
