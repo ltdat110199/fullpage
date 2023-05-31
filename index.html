@@ -4,13 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="./css/index.css" />
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>Document</title>
   </head>
 
   <body>
-    <div style="height: 100%">
+    <div class="first-loading">
+      <lottie-player
+        class="second-loading"
+        src="/js/Portal_Splash.json"
+        speed="0.75"
+        style="width: 618px; height: 270px"
+        autoplay
+        loop
+      ></lottie-player>
+    </div>
+    <!-- <div style="height: 100%">
       <div class="flex margin-x-88 margin-y-22 space-between">
         <div class="flex gap-40 items-center">
           <div><img src="./assets/logotrudi.svg" /></div>
@@ -46,41 +56,29 @@
       </div>
 
       <img class="bottom" src="./assets/fullhouse.svg" />
-    </div>
+    </div> -->
     <!-- <div id="fullpage">
-      <div class="section">
-        <div class="first-loading">
-          <lottie-player
-            class="second-loading"
-            src="/js/Portal_Splash.json"
-            speed="0.75"
-            style="width: 618px; height: 270px"
-            autoplay
-            loop
-          ></lottie-player>
+        <div class="section">
         </div>
-      </div>
-      <div class="section" id="section2">
-        
-      </div>
-      <div class="section" id="section3" style="background-color: red"></div>
-      <div class="section" id="section4" style="background-color: gray"></div>
-      <div class="section" id="section5" style="background-color: green"></div>
+        <div class="section" id="section2" style="background-color: yellowgreen;"></div>
+        <div class="section" id="section3" style="background-color: red;"></div>
+        <div class="section" id="section4" style="background-color: gray;"></div>
+        <div class="section" id="section5" style="background-color: green"></div>
     </div> -->
   </body>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/fullpage.min.js"></script>
-  <script>
-    // $(document).ready(function () {
-    //   $("#fullpage").fullpage({
-    //     //options here
-    //     autoScrolling: true,
-    //     scrollHorizontally: true,
-    //   });
 
-    //   //methods
-    //   $.fn.fullpage.setAllowScrolling(false);
+  <script>
+    //     document.addEventListener("DOMContentLoaded", function() {
+    //   // Replace "target-element-id" with the actual id of the element you want to scroll to
+    //   var targetElement = document.getElementById("section1");
+
+    //   if (targetElement) {
+    //     // Scroll to the target element using smooth behavior
+    //     targetElement.scrollIntoView({ behavior: "smooth" });
+    //   }
     // });
     new fullpage("#fullpage", {
       //options here

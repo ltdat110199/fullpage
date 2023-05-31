@@ -1,7 +1,13 @@
-body {
-  margin: 0 !important;
-}
-
+/*!
+ * fullPage 4.0.19
+ * https://github.com/alvarotrigo/fullPage.js
+ *
+ * @license GPLv3 for open source use only
+ * or Fullpage Commercial License for commercial use
+ * http://alvarotrigo.com/fullPage/pricing/
+ *
+ * Copyright (C) 2021 http://alvarotrigo.com/fullPage - A project by Alvaro Trigo
+ */
 html.fp-enabled,
 .fp-enabled body {
   margin: 0;
@@ -34,6 +40,13 @@ html.fp-enabled,
   overflow: hidden;
   position: relative; /* Safari<=6 Android<=4.3 */
   transition: all 0.3s ease-out;
+}
+
+.fp-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 .fp-slidesContainer {
@@ -317,8 +330,49 @@ html.fp-enabled,
 
 .fp-noscroll .fp-overflow {
   overflow: hidden;
+} 
+.first-loading {
+  background-color: #38dbd0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: width 1s forwards;
 }
 
+body {
+  margin: 0;
+}
+
+@keyframes width {
+  0% {
+    margin: 0;
+  }
+  100% {
+    height: calc(100vh - 64px);
+    margin: 32px;
+    border-radius: 26px;
+  }
+}
+.second-loading {
+  animation: second-loading 1.2s forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+@keyframes second-loading {
+  /* Define the animation for the second-loading class */
+  0% {
+    /* Initial styles */
+    opacity: 0;
+    /* transform: scale(0); */
+  }
+  100% {
+    /* Final styles */
+    opacity: 1;
+    /* transform: scale(1); */
+  }
+}
 .flex {
   display: flex !important;
 }
