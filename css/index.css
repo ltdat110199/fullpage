@@ -433,6 +433,7 @@ body {
   line-height: 24px;
   color: #ffffff;
   box-sizing: border-box;
+  white-space: nowrap;
   /* Auto layout */
   display: flex;
   flex-direction: row;
@@ -528,12 +529,34 @@ body {
   padding: 48px;
 }
 
+.title1 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+  color: #202020;
+}
+
+.home {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+  /* Primary */
+  color: #38dbd0;
+}
+
 .text2 {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 700;
   font-size: 23px;
   line-height: 32px;
+  margin: 0;
   color: #202020;
 }
 
@@ -557,4 +580,8 @@ body {
   /* or 51px */
   /* Trudi/Blue */
   color: #4a7ce0;
+}
+
+body {
+  font-family: "Poppins";
 }/*# sourceMappingURL=index.css.map */
