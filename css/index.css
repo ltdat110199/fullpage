@@ -584,4 +584,37 @@ body {
 
 body {
   font-family: "Poppins";
+}
+
+.text-title {
+  padding-top: 28px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 68px;
+  line-height: 140%;
+  /* or 95px */
+  text-align: center;
+  letter-spacing: 0.5px;
+  color: #202020;
+}
+
+p {
+  margin: 0;
+}
+
+.scroll-animation {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  opacity: 0;
+  transform: translateY(100px);
+  animation: fadeUp 1s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }/*# sourceMappingURL=index.css.map */

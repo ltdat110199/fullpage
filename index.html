@@ -1,181 +1,363 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
 
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <title>Document</title>
+      .modal-content {
+        max-width: 620px;
+        margin: 0 20px;
+      }
+
+      .form-group {
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        height: 44px;
+        width: 100%;
+      }
+
+      .form-group input::placeholder {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #8a8a8a;
+      }
+      .form-group input:not([type="submit"]) {
+        min-height: 0 !important;
+      }
+      .form-group input[type="email"] {
+        font-family: "Work Sans";
+        height: 44px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        outline: 1px solid transparent;
+        padding: 12px;
+        width: 100%;
+        background-color: #f7f7f7;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #202020;
+      }
+
+      .form-group input[disabled] {
+        opacity: 1;
+      }
+      input:not([type="submit"]):focus {
+        border: 1px solid #38dbd0;
+        box-shadow: 0px 0px 0px 2px rgba(0, 170, 159, 0.6) !important;
+        border-radius: 8px;
+      }
+      /* 	.form-group input[type="submit"]:hover{
+		background: #c5c5c5 !important;
+	} */
+      .form-group input[type="submit"] {
+        width: 89px;
+        font-family: "Work Sans";
+        border-radius: 8px;
+        padding: 10px 16px;
+        background-color: #c5c5c5;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        font-feature-settings: "tnum" on, "lnum" on;
+        color: #ffffff;
+        cursor: pointer;
+        height: 40px;
+      }
+
+      .modal-success {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
+      .select-flag {
+        position: relative;
+      }
+
+      .selected-flag {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        /* padding: 5px; */
+        grid-gap: 10px;
+      }
+
+      .selected-flag img {
+      }
+
+      .country-name {
+        font-size: 14px !important;
+        line-height: 20px;
+        font-weight: 500;
+        color: #646464;
+        padding-top: 12px;
+        padding-bottom: 11px;
+      }
+
+      .tick-icon {
+        margin-left: auto;
+        color: green;
+        visibility: hidden;
+      }
+
+      .flag-options {
+        z-index: 99999;
+        position: absolute;
+        top: 135%;
+        left: -30%;
+        display: none;
+        padding: 0;
+      }
+
+      .flag-options li {
+        display: flex;
+        align-items: center;
+        padding: 0 15px 0 12px;
+        cursor: pointer;
+        justify-content: space-between;
+        border-bottom: 1px solid #e9ecf0;
+
+        margin: 0;
+      }
+
+      .flag-options li .country-name {
+        font-size: 14px;
+      }
+
+      .flag-options li .tick-icon {
+        margin-left: auto;
+        visibility: hidden;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        grid-gap: 8px;
+      }
+      .flag-img {
+        width: 32px;
+        height: 16.64px;
+      }
+    </style>
   </head>
-  <link
-    href="https://fonts.googleapis.com/css?family=Poppins"
-    rel="stylesheet"
-  />
 
   <body>
-    <!-- <div class="first-loading">
-      <lottie-player
-        class="second-loading"
-        src="/js/Portal_Splash.json"
-        speed="0.75"
-        style="width: 618px; height: 270px"
-        autoplay
-        loop
-      ></lottie-player>
-    </div> -->
+    <div class="selected-flag">
+      <div class="select-flag">gfsgsdfg</div>
+      <div class="flag-options">
+        <li class="no" data-country="Country 1">
+          <div class="flex">
+            <img
+              class="flag-img"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+              alt="Flag 1"
+            />
 
-    <div id="fullpage">
-      <div class="section">
-        <div>
-          <div class="flex margin-x-88 margin-y-22 space-between">
-            <div class="flex gap-40 items-center">
-              <div><img src="./assets/logotrudi.svg" /></div>
-
-              <div class="mr-8 home">Home</div>
-              <div class="margin-x-8 title1">Features</div>
-              <div class="margin-x-8 title1">Features</div>
-              <div class="margin-x-8 title1">How it works</div>
-              <div class="margin-x-8 title1">Pricing</div>
-            </div>
-            <div class="flex gap-20 flex-end items-center">
-              <div class="flex items-center gap-8">
-                <img src="./assets/flag.svg" />
-                <img src="./assets/arrow.svg" />
-              </div>
-              <div class="w-full button">Book a demo</div>
-            </div>
-          </div>
-          <div style="position: relative" class="flex flex-center w-full">
-            <div class="" style="padding-top: 95px">
-              <div class="">
-                <img src="./assets/Icons.svg" />
-              </div>
-              <p
-                style="margin: 0; padding-top: 41px; color: #202020"
-                class="title"
-              >
-                <span>Hi. I’m</span>
-                <span style="margin: 0 25px 0 15px; color: #38dbd0"
-                  >Trudi!</span
-                >
-              </p>
-              <span style="padding-top: 24px" class="text">
-                The world’s first A.I powered property assistant
-              </span>
-            </div>
-            <img class="sound" src="./assets/sound.svg" />
+            <span class="country-name">Australia</span>
           </div>
 
-          <img class="bottom" src="./assets/fullhouse.svg" />
-        </div>
+          <img
+            class="tick-icon"
+            src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+          />
+        </li>
+        <li data-country="Country 2">
+          <div class="flex">
+            <img
+              class="flag-img"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-2.svg"
+              alt="Flag 2"
+            />
+            <span class="country-name">United States</span>
+          </div>
+          <img
+            class="tick-icon"
+            src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+          />
+        </li>
+        <li data-country="Country 3">
+          <div class="flex">
+            <img
+              class="flag-img"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-3.svg"
+              alt="Flag 3"
+            />
+            <span class="country-name">United Kingdom</span>
+          </div>
+
+          <img
+            class="tick-icon"
+            src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+          />
+        </li>
       </div>
-      <div class="section" id="section2">
-        <div>
-          <div class="flex margin-x-88 margin-y-22 space-between">
-            <div class="flex gap-40 items-center">
-              <div><img src="./assets/logotrudi.svg" /></div>
-
-              <div class="mr-8 home">Home</div>
-              <div class="margin-x-8 title1">Features</div>
-              <div class="margin-x-8 title1">Features</div>
-              <div class="margin-x-8 title1">How it works</div>
-              <div class="margin-x-8 title1">Pricing</div>
-            </div>
-            <div class="flex gap-20 flex-end items-center">
-              <div class="flex items-center gap-8">
-                <img src="./assets/flag.svg" />
-                <img src="./assets/arrow.svg" />
-              </div>
-              <div class="w-full button">Book a demo</div>
-            </div>
-          </div>
-          <div
-            class="flex column flex-center items-center"
-            style="padding-top: 60px"
-          >
-            <div class="flex gap-32">
-              <div class="w-full box-content">
-                <div class="p-48">
-                  <div class="text2">Answering up to</div>
-                  <div class="text3">
-                    <img src="./assets/85.svg" />
-
-                    <div style="padding-left: 5px">
-                      <img src="./assets/persent.svg" />
-                    </div>
-                  </div>
-                  <p class="text2">
-                    <span> of your emails </span>
-                    <span style="color: #20202080">
-                      from landlords and tenants
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div class="w-full box-content">
-                <div class="p-48">
-                  <div class="text2">Saving you up to</div>
-                  <div class="text3">
-                    <img src="./assets/4.svg" />
-
-                    <div style="padding-left: 5px">
-                      <img src="./assets/hours.svg" />
-                    </div>
-                  </div>
-                  <p class="text2" style="padding-right: 40px">
-                    <span> a day </span>
-                    <span style="color: #20202080">
-                      by taking over your communication
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div class="w-full box-content">
-                <div class="p-48">
-                  <div class="text2">Handling enquiries</div>
-                  <img
-                    style="padding: 12px 50px 12px 0"
-                    src="./assets/text.svg"
-                  />
-
-                  <div class="text2">so you can switch off</div>
-                </div>
-              </div>
-            </div>
-            <div style="position: relative" class="big-box">
-              <div style="position: absolute"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section" id="section3" style="background-color: red"></div>
-      <div class="section" id="section4" style="background-color: gray"></div>
-      <div class="section" id="section5" style="background-color: green"></div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".no .tick-icon").css("visibility", "visible");
+        $(" .no .flex  .country-name").css("color", " #202020");
+
+        $(".selected-flag").click(function () {
+          $(".flag-options").toggle();
+          $(".dropdown").css("transform", "rotate(180deg)");
+        });
+        $(".flag-options li").click(function () {
+          var selectedFlagSrc = $(this).find("img").attr("src");
+          var selectedFlagAlt = $(this).find("img").attr("alt");
+          var selectedCountry = $(this).attr("data-country");
+          $(".selected-flag .flag-img").attr("src", selectedFlagSrc);
+          $(".flag-options").hide();
+          $(".flag-options li .tick-icon").css("visibility", "hidden");
+          $(".flex .country-name").css("color", "#666666");
+          $(".dropdown").css("transform", "rotate(0deg)");
+
+          $(this).find(".tick-icon").css("visibility", "visible");
+          $(this).find(".country-name").css("color", " #202020");
+        });
+      });
+      $(document).ready(function () {
+        $("#open-modal-btn").click(function () {
+          $("#modal").fadeIn();
+          $("#outsideclick").css("display", "none");
+          $("#modal").css("display", "flex");
+        });
+        $(" .modal").click(function (e) {
+          if (e.target === this) {
+            $("#modal").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+        $(".modal-success").click(function (e) {
+          if (e.target === this) {
+            $("#modal-success").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+      });
+      $(document).ready(function () {
+        $("#email").val("");
+        $(".clear-button").css("display", "none");
+        $('.no-touch input[type="submit"]:hover').css(
+          "background",
+          "#c5c5c5 !important"
+        );
+        $("#email").on("input", function () {
+          var email = $(this).val();
+          if (email.trim() !== "") {
+            $(".clear-button").css("display", "flex");
+            $('input[type="submit"]').prop("disabled", false);
+            $('input[type="submit"]').css("background-color", "#38DBD0");
+
+            $('input[type="submit"]:hover').css(
+              "background",
+              "#38DBD0 !important"
+            );
+            $("#register-button").removeClass('input[type="submit"]:hover');
+            $('input[type="submit"]').hover(function () {
+              $(this).css("background", "#38DBD0 !important");
+            });
+          } else {
+            $(".clear-button").css("display", "none");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+        $("#registration-form").submit(function (event) {
+          event.preventDefault();
+          var email = $("#email").val();
+
+          // if (!isValidEmail(email)) {
+          //   console.log("41234");
+          //   $("#email").css("background", "red");
+          //   return;
+          // }
+
+          $("#email").val("");
+
+          $("#email").removeClass("valid-input");
+          $('input[type="submit"]').prop("disabled", true);
+          $(".modal-success").css("display", "flex");
+          $(".modal").css("display", "none");
+          $('input[type="submit"]').css("background-color", "#c5c5c5");
+        });
+
+        $(".continue").click(function () {
+          $(".modal").css("display", "none");
+          $(".modal-success").css("display", "none");
+          $(".clear-button").css("display", "none");
+        });
+        $(".clear-button").click(function () {
+          $("#email").val("");
+          $('input[type="submit"]').prop("disabled", true);
+          $('input[type="submit"]').css("background-color", "#c5c5c5");
+          $(".clear-button").css("display", "none");
+        });
+
+        $("#email").focus();
+
+        function isValidEmail(email) {
+          // Regular expression for email validation
+          var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          return emailPattern.test(email);
+        }
+      });
+      // $(document).ready(function () {
+      //   $(".toggle-icon").click(function () {
+      //     $(".overlay").css("display", "block");
+      //   });
+
+      //   $(".no .tick-icon").css("visibility", "visible");
+      //   $(" .no .flex  .country-name-mobile").css("color", " #202020");
+
+      //   $(".select-flag-mobile li").click(function () {
+      //     var selectedFlagSrc = $(this).find("img").attr("src");
+      //     var selectedFlagAlt = $(this).find("img").attr("alt");
+      //     var selectedCountry = $(this).attr("data-country");
+      //     $(".select-region .flag-img").attr("src", selectedFlagSrc);
+      //     $(".select-flag-mobile  li .tick-icon").css("visibility", "hidden");
+      //     $(".flex .country-name-mobile").css("color", "#666666");
+
+      //     $(this).find(".tick-icon").css("visibility", "visible");
+      //     $(this).find(".country-name-mobile").css("color", " #202020");
+      //   });
+      // });
+    </script>
   </body>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/fullpage.min.js"></script>
-
-  <script>
-    //     document.addEventListener("DOMContentLoaded", function() {
-    //   // Replace "target-element-id" with the actual id of the element you want to scroll to
-    //   var targetElement = document.getElementById("section1");
-
-    //   if (targetElement) {
-    //     // Scroll to the target element using smooth behavior
-    //     targetElement.scrollIntoView({ behavior: "smooth" });
-    //   }
-    // });
-    new fullpage("#fullpage", {
-      //options here
-      autoScrolling: true,
-      scrollHorizontally: true,
-      navigation: true,
-      navigationPosition: "left",
-      sectionSelector: ".section",
-    });
-  </script>
 </html>

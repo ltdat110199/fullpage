@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Lato", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .overlay {
+        height: 0%;
+        width: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 92px;
+        left: 0;
+        background-color: white;
+        overflow-y: hidden;
+        transition: 0.5s;
+      }
+
+      .overlay-content {
+        background-color: white;
+        position: relative;
+        padding: 22px 33px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .text {
+        text-decoration: none;
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 600;
+        line-height: 24px;
+        display: block;
+        color: #202020;
+        transition: 0.3s;
+        margin: 0;
+      }
+
+      .overlay-content a:hover,
+      .overlay-content a:focus {
+        color: var(--primary, #38dbd0);
+      }
+
+      .line {
+        border-top: 1px solid #d8dcdf;
+      }
+      .box-region {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .select-region {
+        display: flex;
+        align-items: center;
+      }
+      .button-book-a-demo-mobile {
+        display: flex;
+        padding: 12px 24px;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        color: #fff;
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 600;
+        line-height: 24px;
+        border-radius: 24px;
+        border: 1px solid var(--primary, #38dbd0);
+        background: var(--primary, #38dbd0);
+        text-decoration: none;
+      }
+      .button-book-a-demo-mobile a:hover,
+      .button-book-a-demo-mobile a:focus {
+        color: white;
+      }
+      .location-screen {
+        position: fixed;
+        z-index: 2;
+
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.5s;
+      }
+      .location-screen.active {
+        visibility: visible;
+        opacity: 1;
+      }
+      .location-screen-content {
+        height: 100%;
+        width: 100%;
+        background-color: white;
+      }
+
+      .select-flag-mobile li {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin: 0;
+      }
+      .select-flag-mobile {
+        padding-top: 25px;
+        padding-bottom: 28px;
+        gap: 32px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .select-flag-mobile li .tick-icon {
+        margin-left: auto;
+        visibility: hidden;
+      }
+      .country-name-mobile {
+        color: var(--neutral-5, #666);
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 500;
+        line-height: 20px;
+      }
+      /* bỏ */
+      .flex {
+        display: flex;
+        align-items: center;
+        grid-gap: 8px;
+      }
+      .flag-img {
+        width: 32px;
+        height: 16.64px;
+      }
+
+      .tick-icon {
+        margin-left: auto;
+        color: green;
+        visibility: hidden;
+      }
+      /*  */
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div id="myNav" class="overlay">
+      <div class="overlay-content">
+        <a id="home" class="text" href="https://staging15.trudi.ai/">Home</a>
+        <a
+          id="features"
+          class="text"
+          href="https://staging15.trudi.ai/features/"
+          >Features</a
+        >
+        <a class="text" href="https://staging15.trudi.ai/how-it-works/"
+          >How it works</a
+        >
+        <a class="text" href="https://staging15.trudi.ai/pricing/">Pricing</a>
+        <div class="line"></div>
+        <div
+          style="cursor: pointer"
+          class="box-region"
+          onclick="openLocationScreen()"
+        >
+          <p class="text">Current Region</p>
+          <div class="select-region" style="gap: 4px">
+            <img
+              class="flag-img"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+              alt="Flag 1"
+            />
+            <div class="box-region">
+              <img src="/assets/chevron-right.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="book-a-demo-button">
+          <a
+            href="javascript:void(0)"
+            id="book-a-demo"
+            style="cursor: pointer"
+            class="button-book-a-demo-mobile"
+          >
+            Book a demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="locationScreen" class="location-screen">
+      <div class="location-screen-content">
+        <div style="padding: 14px 16px">
+          <div class="box-region">
+            <button
+              onclick="closeLocationScreen()"
+              style="
+                cursor: pointer;
+                gap: 8px;
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              "
+            >
+              <img class="" src="/assets/arrow-left.svg" alt="arrow " />
+              <p class="text">Current Region</p>
+            </button>
+            <button
+              style="
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              "
+              onclick="closeAll()"
+            >
+              <img src="/assets/Bullist.svg" alt="close" />
+            </button>
+          </div>
+          <div style="padding: 0 16px">
+            <div class="select-flag-mobile">
+              <li class="no" data-country="Country 1">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+                    alt="Flag 1"
+                  />
+
+                  <span class="country-name-mobile">Australia</span>
+                  <img
+                    class="tick-icon"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+              <li data-country="Country 2">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-2.svg"
+                    alt="Flag 2"
+                  />
+                  <span class="country-name-mobile">United States</span>
+                  <img
+                    class="tick-icon"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+              <li data-country="Country 3">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-3.svg"
+                    alt="Flag 3"
+                  />
+                  <span class="country-name-mobile">United Kingdom</span>
+                  <img
+                    class="tick-icon"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+            </div>
+            <div class="line"></div>
+            <p
+              style="
+                padding-top: 16px;
+                padding-right: 30px;
+
+                margin: 0;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px;
+                color: #666;
+                font-size: 16px;
+                font-family: Poppins;
+              "
+            >
+              Don’t see your region?
+              <br />
+              <a style="cursor: pointer" id="open-modal-btn">
+                <span style="color: rgba(56, 219, 208, 1); font-weight: 500"
+                  >Register</span
+                >
+              </a>
+              to get notified when Trudi is available.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img
+      src="/assets/Bullist (1).svg"
+      id="toggleButton"
+      class="toggle-icon open"
+      onclick="toggleNav()"
+    />
+
+    <script>
+      var isOpen = false;
+
+      function toggleNav() {
+        var myNav = document.getElementById("myNav");
+        var toggleButton = document.getElementById("toggleButton");
+        if (isOpen) {
+          myNav.style.height = "0%";
+        } else {
+          myNav.style.height = "100%";
+        }
+
+        isOpen = !isOpen;
+      }
+
+      function closeAll() {
+        $(".overlay").css("display", "none");
+        isOpen = !isOpen;
+        closeLocationScreen();
+      }
+      function openLocationScreen() {
+        var locationScreen = document.getElementById("locationScreen");
+        locationScreen.classList.add("active");
+      }
+
+      function closeLocationScreen() {
+        var locationScreen = document.getElementById("locationScreen");
+        locationScreen.classList.remove("active");
+      }
+      $(document).ready(function () {
+        $(".toggle-icon").click(function () {
+          $(".overlay").css("display", "block");
+        });
+
+        $(".no .tick-icon").css("visibility", "visible");
+        $(" .no .flex  .country-name-mobile").css("color", " #202020");
+
+        $(".select-flag-mobile li").click(function () {
+          var selectedFlagSrc = $(this).find("img").attr("src");
+          var selectedFlagAlt = $(this).find("img").attr("alt");
+          var selectedCountry = $(this).attr("data-country");
+          $(".select-region .flag-img").attr("src", selectedFlagSrc);
+          $(".select-flag-mobile  li .tick-icon").css("visibility", "hidden");
+          $(".flex .country-name-mobile").css("color", "#666666");
+
+          $(this).find(".tick-icon").css("visibility", "visible");
+          $(this).find(".country-name-mobile").css("color", " #202020");
+        });
+      });
+    </script>
+  </body>
+</html>
