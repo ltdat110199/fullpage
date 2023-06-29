@@ -144,6 +144,104 @@
         color: green;
         visibility: hidden;
       }
+      .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
+
+      .modal-content {
+        max-width: 620px;
+        margin: 0 20px;
+        width: 100%;
+      }
+
+      .form-group {
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        height: 44px;
+        width: 100%;
+      }
+
+      .form-group input::placeholder {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #8a8a8a;
+      }
+      .form-group input:not([type="submit"]) {
+        min-height: 0 !important;
+      }
+      .form-group input[type="email"] {
+        font-family: "Work Sans";
+        border-radius: 8px;
+        border: 1px solid transparent;
+        outline: 1px solid transparent;
+        padding: 12px 30px 12px 12px;
+        width: 100%;
+        background-color: #f7f7f7;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #202020;
+      }
+
+      .form-group input[disabled] {
+        opacity: 1;
+      }
+      input:not([type="submit"]):focus {
+        border: 1px solid #38dbd0;
+        box-shadow: 0px 0px 0px 2px rgba(0, 170, 159, 0.6) !important;
+        border-radius: 8px;
+      }
+      /* 	.form-group input[type="submit"]:hover{
+		background: #c5c5c5 !important;
+	} */
+      .form-group input[type="submit"] {
+        border: none;
+        width: 89px;
+        font-family: "Work Sans";
+        border-radius: 8px;
+        padding: 10px 16px;
+        background-color: #c5c5c5;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        font-feature-settings: "tnum" on, "lnum" on;
+        color: #ffffff;
+        cursor: pointer;
+        height: 40px;
+      }
+
+      .modal-success {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
+
       /*  */
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -214,6 +312,7 @@
               <p class="text">Current Region</p>
             </button>
             <button
+              id="closeLocationMobile"
               style="
                 cursor: pointer;
                 display: flex;
@@ -291,7 +390,7 @@
             >
               Don’t see your region?
               <br />
-              <a style="cursor: pointer" id="open-modal-btn">
+              <a style="cursor: pointer" id="open-modal-btn-mobile">
                 <span style="color: rgba(56, 219, 208, 1); font-weight: 500"
                   >Register</span
                 >
@@ -299,6 +398,369 @@
               to get notified when Trudi is available.
             </p>
           </div>
+        </div>
+      </div>
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <div
+            class=""
+            style="
+              background: var(--primary-2, #e5f7f5);
+              display: flex;
+              padding: 36px 0;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: var(--primary, #38dbd0);
+                text-align: center;
+                font-size: 32px;
+                font-family: Poppins;
+                font-weight: 500;
+                line-height: 24px;
+              "
+            >
+              Welcome to Trudi.ai!
+            </p>
+          </div>
+          <div
+            class=""
+            style="
+              padding: 20px 85px 42px;
+              background: #fff;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              gap: 20px;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #202020;
+                text-align: center;
+                font-size: 20px;
+                font-family: Poppins;
+                font-weight: 500;
+                line-height: 30px;
+              "
+            >
+              We have detected that you are from
+              <span style="color: #4a7ce0" class="location"> Ireland </span>
+              !
+            </p>
+            <ul style="margin: 0; padding: 0 0 0 25px">
+              <li
+                style="
+                  color: var(--neutral-9, #202020);
+                  font-size: 16px;
+                  font-family: Poppins;
+                  font-weight: 300;
+                  line-height: 26px;
+                "
+              >
+                Our product is not yet supported in your country.
+              </li>
+              <li
+                style="
+                  color: var(--neutral-9, #202020);
+                  font-size: 16px;
+                  font-family: Poppins;
+                  font-weight: 300;
+                  line-height: 26px;
+                "
+              >
+                Register to receive notification on when we are available in
+                your country.
+              </li>
+            </ul>
+            <form
+              id="registration-form"
+              class=""
+              style="width: 100%; height: 44px"
+            >
+              <div class="form-group">
+                <div
+                  style="
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 341px;
+                  "
+                >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                  />
+                  <div
+                    class="clear-button"
+                    style="position: absolute; right: 12px; cursor: pointer"
+                  >
+                    <img
+                      src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Icon-1-1.svg"
+                    />
+                  </div>
+                </div>
+                <input
+                  id="register-button"
+                  type="submit"
+                  value="Register"
+                  disabled
+                />
+              </div>
+            </form>
+            <div
+              style="
+                padding-top: 33px;
+                color: var(--neutral-9, #202020);
+                text-align: center;
+                font-size: 16px;
+                font-family: Poppins;
+                line-height: 26px;
+              "
+            >
+              Continue to Australian Trudi.ai
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-success">
+        <div class="modal-content">
+          <div
+            class=""
+            style="
+              background: white;
+              width: 100%;
+              padding: 42px 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 20px;
+              flex-direction: column;
+            "
+          >
+            <p
+              style="
+                color: var(--neutral-9, #202020);
+                text-align: center;
+                font-size: 20px;
+                font-family: Poppins;
+                font-weight: 500;
+                margin: 0;
+              "
+            >
+              Thank you for registering. See you soon!
+            </p>
+            <div
+              style="width: 140px; height: 140px"
+              id="lottie-animation"
+            ></div>
+            <p
+              class="continue"
+              style="
+                margin: 0;
+
+                padding: 10px 16px;
+                border-radius: 8px;
+                background: var(--primary, #38dbd0);
+                text-align: center;
+                color: var(--white-5, #fff);
+                font-size: 14px;
+                font-family: Work Sans;
+                font-weight: 600;
+                line-height: 20px;
+              "
+            >
+              Continue to Australian Trudi.ai
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div
+          class=""
+          style="
+            background: var(--primary-2, #e5f7f5);
+            display: flex;
+            padding: 36px 0;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <p
+            style="
+              margin: 0;
+              color: var(--primary, #38dbd0);
+              text-align: center;
+              font-size: 32px;
+              font-family: Poppins;
+              font-weight: 500;
+              line-height: 24px;
+            "
+          >
+            Welcome to Trudi.ai!
+          </p>
+        </div>
+        <div
+          class=""
+          style="
+            padding: 20px 85px 42px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+          "
+        >
+          <p
+            style="
+              margin: 0;
+              color: #202020;
+              text-align: center;
+              font-size: 20px;
+              font-family: Poppins;
+              font-weight: 500;
+              line-height: 30px;
+            "
+          >
+            We have detected that you are from
+            <span style="color: #4a7ce0" class="location"> Ireland </span>
+            !
+          </p>
+          <ul style="margin: 0; padding: 0 0 0 25px">
+            <li
+              style="
+                color: var(--neutral-9, #202020);
+                font-size: 16px;
+                font-family: Poppins;
+                font-weight: 300;
+                line-height: 26px;
+              "
+            >
+              Our product is not yet supported in your country.
+            </li>
+            <li
+              style="
+                color: var(--neutral-9, #202020);
+                font-size: 16px;
+                font-family: Poppins;
+                font-weight: 300;
+                line-height: 26px;
+              "
+            >
+              Register to receive notification on when we are available in your
+              country.
+            </li>
+          </ul>
+          <form
+            id="registration-form"
+            class=""
+            style="width: 100%; height: 44px"
+          >
+            <div class="form-group">
+              <div
+                style="
+                  position: relative;
+                  display: flex;
+                  align-items: center;
+                  width: 100%;
+                  max-width: 341px;
+                "
+              >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                />
+                <div
+                  class="clear-button"
+                  style="position: absolute; right: 12px; cursor: pointer"
+                >
+                  <img
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Icon-1-1.svg"
+                  />
+                </div>
+              </div>
+              <input
+                id="register-button"
+                type="submit"
+                value="Register"
+                disabled
+              />
+            </div>
+          </form>
+          <div
+            style="
+              padding-top: 33px;
+              color: var(--neutral-9, #202020);
+              text-align: center;
+              font-size: 16px;
+              font-family: Poppins;
+              line-height: 26px;
+            "
+          >
+            Continue to Australian Trudi.ai
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-success">
+      <div class="modal-content">
+        <div
+          class=""
+          style="
+            background: white;
+            width: 100%;
+            padding: 42px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-direction: column;
+          "
+        >
+          <p
+            style="
+              color: var(--neutral-9, #202020);
+              text-align: center;
+              font-size: 20px;
+              font-family: Poppins;
+              font-weight: 500;
+              margin: 0;
+            "
+          >
+            Thank you for registering. See you soon!
+          </p>
+          <div style="width: 140px; height: 140px" id="lottie-animation"></div>
+          <p
+            class="continue"
+            style="
+              margin: 0;
+
+              padding: 10px 16px;
+              border-radius: 8px;
+              background: var(--primary, #38dbd0);
+              text-align: center;
+              color: var(--white-5, #fff);
+              font-size: 14px;
+              font-family: Work Sans;
+              font-weight: 600;
+              line-height: 20px;
+            "
+          >
+            Continue to Australian Trudi.ai
+          </p>
         </div>
       </div>
     </div>
@@ -311,6 +773,55 @@
     />
 
     <script>
+      $(document).ready(function () {
+        $("#open-modal-btn-mobile").click(function () {
+          $(".dropdown").css("transform", "rotate(0deg)");
+
+          $("#modal").fadeIn();
+          $(".flag-options").hide();
+          $("#modal").css("display", "flex");
+        });
+        $(" .modal").click(function (e) {
+          if (e.target === this) {
+            $("#modal").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+
+        $(".modal-success").click(function (e) {
+          if (e.target === this) {
+            $("#modal-success").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+      });
+
+      $(document).ready(function () {
+        $("#closeLocationMobile").click(function () {
+          $(".toggle-icon").fadeToggle(function () {
+            var currentSrc = $(this).attr("src");
+            $(this).attr("src", "/assets/Bullist (1).svg");
+            $(this).fadeToggle();
+          });
+        });
+        $("#toggleButton").click(function () {
+          $(".toggle-icon").fadeToggle(function () {
+            var currentSrc = $(this).attr("src");
+            var newSrc =
+              currentSrc === "/assets/Bullist (1).svg"
+                ? "/assets/Bullist.svg"
+                : "/assets/Bullist (1).svg";
+            $(this).attr("src", newSrc);
+            $(this).fadeToggle();
+          });
+        });
+      });
       var isOpen = false;
 
       function toggleNav() {

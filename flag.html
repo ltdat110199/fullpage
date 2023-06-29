@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .custom-select {
+        position: relative;
+        display: inline-block;
+      }
+
+      .selected-option {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+      }
+
+      .options-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+        display: none;
+        background-color: #fff;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #ccc;
+      }
+
+      .options-list li {
+        padding: 5px;
+        cursor: pointer;
+      }
+
+      .options-list li:hover {
+        background-color: #f4f4f4;
+      }
+      .country-name {
+        font-size: 14px !important;
+        line-height: 20px;
+        font-weight: 500;
+        color: #646464;
+        padding-top: 12px;
+        padding-bottom: 11px;
+      }
+
+      .tick-icon {
+        margin-left: auto;
+        color: green;
+        visibility: hidden;
+      }
+
+      .flag-options {
+        z-index: 99999;
+        position: absolute;
+        top: 135%;
+        /* left: -30%; */
+        display: none;
+        padding: 0;
+      }
+
+      .flag-options li {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        cursor: pointer;
+        justify-content: space-between;
+        border-bottom: 1px solid #e9ecf0;
+
+        margin: 0;
+      }
+
+      .flag-options li .country-name {
+        font-size: 14px;
+      }
+
+      .flag-options li .tick-icon {
+        margin-left: auto;
+        visibility: hidden;
+      }
+      .flex {
+        display: flex;
+        align-items: center;
+        grid-gap: 8px;
+      }
+      .flag-img {
+        width: 32px;
+        height: 16.64px;
+      }
+      .flag-dropdown {
+        width: 210px;
+        border-radius: 8px;
+        background: var(--white-5, #fff);
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3),
+          0px 4px 8px 3px rgba(0, 0, 0, 0.1);
+      }
+      .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
+
+      .modal-content {
+        max-width: 620px;
+        margin: 0 20px;
+        width: 100%;
+      }
+
+      .form-group {
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        height: 44px;
+        width: 100%;
+      }
+
+      .form-group input::placeholder {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #8a8a8a;
+      }
+      .form-group input:not([type="submit"]) {
+        min-height: 0 !important;
+      }
+      .form-group input[type="email"] {
+        font-family: "Work Sans";
+        border-radius: 8px;
+        border: 1px solid transparent;
+        outline: 1px solid transparent;
+        padding: 12px 30px 12px 12px;
+        width: 100%;
+        background-color: #f7f7f7;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #202020;
+      }
+
+      .form-group input[disabled] {
+        opacity: 1;
+      }
+      input:not([type="submit"]):focus {
+        border: 1px solid #38dbd0;
+        box-shadow: 0px 0px 0px 2px rgba(0, 170, 159, 0.6) !important;
+        border-radius: 8px;
+      }
+      /* 	.form-group input[type="submit"]:hover{
+		background: #c5c5c5 !important;
+	} */
+      .form-group input[type="submit"] {
+        border: none;
+        width: 89px;
+        font-family: "Work Sans";
+        border-radius: 8px;
+        padding: 10px 16px;
+        background-color: #c5c5c5;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        font-feature-settings: "tnum" on, "lnum" on;
+        color: #ffffff;
+        cursor: pointer;
+        height: 40px;
+      }
+
+      .modal-success {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(7.5px);
+      }
+      .tick-icon-mobile {
+        margin-left: auto;
+        color: green;
+        visibility: hidden;
+      }
+      .country-name-mobile {
+        color: var(--neutral-5, #666);
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 500;
+        line-height: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="select-region" style="gap: 4px">
+      <img
+        class="flag-img"
+        src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+        alt="Flag 1"
+      />
+      <div class="box-region">
+        <img src="/assets/chevron-right.svg" />
+      </div>
+    </div>
+    <div id="locationScreen" class="location-screen">
+      <div class="location-screen-content">
+        <div style="padding: 14px 16px">
+          <div class="box-region">
+            <button
+              onclick="closeLocationScreen()"
+              style="
+                cursor: pointer;
+                gap: 8px;
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              "
+            >
+              <img class="" src="/assets/arrow-left.svg" alt="arrow " />
+              <p class="text">Current Region</p>
+            </button>
+            <button
+              style="
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              "
+              onclick="closeAll()"
+            >
+              <img src="/assets/Bullist.svg" alt="close" />
+            </button>
+          </div>
+          <div style="padding: 0 16px">
+            <div class="select-flag-mobile">
+              <li class="no" data-country="Country 1">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+                    alt="Flag 1"
+                  />
+
+                  <span id="country-name-mobile-1" class="country-name-mobile"
+                    >Australia</span
+                  >
+                  <img
+                    id="tick-icon-mobile-1"
+                    class="tick-icon-mobile"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+              <li data-country="Country 2">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-2.svg"
+                    alt="Flag 2"
+                  />
+                  <span id="country-name-mobile-2" class="country-name-mobile"
+                    >United States</span
+                  >
+                  <img
+                    id="tick-icon-mobile-2"
+                    class="tick-icon-mobile"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+              <li data-country="Country 3">
+                <div class="flex">
+                  <img
+                    class="flag-img"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-3.svg"
+                    alt="Flag 3"
+                  />
+                  <span id="country-name-mobile-3" class="country-name-mobile"
+                    >United Kingdom</span
+                  >
+                  <img
+                    id="tick-icon-mobile-3"
+                    class="tick-icon-mobile"
+                    src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+                  />
+                </div>
+              </li>
+            </div>
+            <div class="line"></div>
+            <p
+              style="
+                padding-top: 16px;
+                padding-right: 30px;
+
+                margin: 0;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px;
+                color: #666;
+                font-size: 16px;
+                font-family: Poppins;
+              "
+            >
+              Don’t see your region?
+              <br />
+              <a style="cursor: pointer" id="open-modal-btn-mobile">
+                <span style="color: rgba(56, 219, 208, 1); font-weight: 500"
+                  >Register</span
+                >
+              </a>
+              to get notified when Trudi is available.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="custom-select">
+      <div class="selected-option">
+        <img
+          class="flag-img"
+          src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+          alt="Flag 2"
+        />
+        <div class="dropdown">
+          <img src="./assets/arrow.svg" />
+        </div>
+      </div>
+      <div class="outsideclick">
+        <ul class="flag-options flag-dropdown">
+          <li class="no" data-country="Country 1">
+            <div class="flex">
+              <img
+                class="flag-img"
+                src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-1-1.svg"
+                alt="Flag 1"
+              />
+
+              <span id="country-name-1" class="country-name">Australia</span>
+            </div>
+
+            <img
+              id="tick-icon-1"
+              class="tick-icon"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+            />
+          </li>
+          <li data-country="Country 2">
+            <div class="flex">
+              <img
+                class="flag-img"
+                src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-2.svg"
+                alt="Flag 2"
+              />
+              <span id="country-name-2" class="country-name"
+                >United States</span
+              >
+            </div>
+            <img
+              id="tick-icon-2"
+              class="tick-icon"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+            />
+          </li>
+          <li data-country="Country 3">
+            <div class="flex">
+              <img
+                class="flag-img"
+                src="https://staging15.trudi.ai/wp-content/uploads/2023/06/image-3.svg"
+                alt="Flag 3"
+              />
+              <span id="country-name-3" class="country-name"
+                >United Kingdom</span
+              >
+            </div>
+
+            <img
+              id="tick-icon-3"
+              class="tick-icon"
+              src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Vector-4.svg"
+            />
+          </li>
+          <p
+            style="
+              padding: 12px;
+
+              margin: 0;
+              font-style: normal;
+              font-weight: 400;
+              color: #646464;
+              font-size: 14px;
+              font-family: Poppins;
+              line-height: 20px;
+            "
+          >
+            Don’t see your region?
+            <br />
+            <a style="cursor: pointer" id="open-modal-btn">
+              <span style="color: rgba(56, 219, 208, 1); font-weight: 500"
+                >Register</span
+              >
+            </a>
+            to get notified when Trudi is available.
+          </p>
+        </ul>
+      </div>
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <div
+            class=""
+            style="
+              background: var(--primary-2, #e5f7f5);
+              display: flex;
+              padding: 36px 0;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: var(--primary, #38dbd0);
+                text-align: center;
+                font-size: 32px;
+                font-family: Poppins;
+                font-weight: 500;
+                line-height: 24px;
+              "
+            >
+              Welcome to Trudi.ai!
+            </p>
+          </div>
+          <div
+            class=""
+            style="
+              padding: 20px 85px 42px;
+              background: #fff;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              gap: 20px;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #202020;
+                text-align: center;
+                font-size: 20px;
+                font-family: Poppins;
+                font-weight: 500;
+                line-height: 30px;
+              "
+            >
+              We have detected that you are from
+              <span style="color: #4a7ce0" class="location"> Ireland </span>
+              !
+            </p>
+            <ul style="margin: 0; padding: 0 0 0 25px">
+              <li
+                style="
+                  color: var(--neutral-9, #202020);
+                  font-size: 16px;
+                  font-family: Poppins;
+                  font-weight: 300;
+                  line-height: 26px;
+                "
+              >
+                Our product is not yet supported in your country.
+              </li>
+              <li
+                style="
+                  color: var(--neutral-9, #202020);
+                  font-size: 16px;
+                  font-family: Poppins;
+                  font-weight: 300;
+                  line-height: 26px;
+                "
+              >
+                Register to receive notification on when we are available in
+                your country.
+              </li>
+            </ul>
+            <form
+              id="registration-form"
+              class=""
+              style="width: 100%; height: 44px"
+            >
+              <div class="form-group">
+                <div
+                  style="
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 341px;
+                  "
+                >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                  />
+                  <div
+                    class="clear-button"
+                    style="position: absolute; right: 12px; cursor: pointer"
+                  >
+                    <img
+                      src="https://staging15.trudi.ai/wp-content/uploads/2023/06/Icon-1-1.svg"
+                    />
+                  </div>
+                </div>
+                <input
+                  id="register-button"
+                  type="submit"
+                  value="Register"
+                  disabled
+                />
+              </div>
+            </form>
+            <div
+              style="
+                padding-top: 33px;
+                color: var(--neutral-9, #202020);
+                text-align: center;
+                font-size: 16px;
+                font-family: Poppins;
+                line-height: 26px;
+              "
+            >
+              Continue to Australian Trudi.ai
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-success">
+        <div class="modal-content">
+          <div
+            class=""
+            style="
+              background: white;
+              width: 100%;
+              padding: 42px 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 20px;
+              flex-direction: column;
+            "
+          >
+            <p
+              style="
+                color: var(--neutral-9, #202020);
+                text-align: center;
+                font-size: 20px;
+                font-family: Poppins;
+                font-weight: 500;
+                margin: 0;
+              "
+            >
+              Thank you for registering. See you soon!
+            </p>
+            <div
+              style="width: 140px; height: 140px"
+              id="lottie-animation"
+            ></div>
+            <p
+              class="continue"
+              style="
+                margin: 0;
+
+                padding: 10px 16px;
+                border-radius: 8px;
+                background: var(--primary, #38dbd0);
+                text-align: center;
+                color: var(--white-5, #fff);
+                font-size: 14px;
+                font-family: Work Sans;
+                font-weight: 600;
+                line-height: 20px;
+              "
+            >
+              Continue to Australian Trudi.ai
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".toggle-icon").click(function () {
+          $(".overlay").css("display", "block");
+        });
+
+        $(".no .tick-icon-mobile").css("visibility", "visible");
+        $(" .no .flex  .country-name-mobile").css("color", " #202020");
+
+        $(".select-flag-mobile li").click(function () {
+          var selectedFlagSrc = $(this).find("img").attr("src");
+          var selectedFlagAlt = $(this).find("img").attr("alt");
+          var selectedCountry = $(this).attr("data-country");
+          $(".selected-flag .flag-img").attr("src", selectedFlagSrc);
+          $(".selected-option .flag-img").attr("src", selectedFlagSrc);
+          var text = $(this).text().toString().trim();
+          if (text.toLowerCase() == "australia") {
+            $("#tick-icon-1").css("visibility", "visible");
+            $("#tick-icon-2").css("visibility", "hidden");
+            $("#tick-icon-3").css("visibility", "hidden");
+            $("#country-name-1").css("color", "#202020");
+            $("#country-name-2").css("color", "#666666");
+            $("#country-name-3").css("color", "#666666");
+          } else if (text == "United States") {
+            $("#tick-icon-2").css("visibility", "visible");
+            $("#tick-icon-1").css("visibility", "hidden");
+            $("#tick-icon-3").css("visibility", "hidden");
+            $("#country-name-2").css("color", "#202020");
+            $("#country-name-1").css("color", "#666666");
+            $("#country-name-3").css("color", "#666666");
+          } else {
+            $("#tick-icon-3").css("visibility", "visible");
+            $("#tick-icon-1").css("visibility", "hidden");
+            $("#tick-icon-2").css("visibility", "hidden");
+            $("#country-name-3").css("color", "#202020");
+            $("#country-name-2").css("color", "#666666");
+            $("#country-name-1").css("color", "#666666");
+          }
+          //
+          var selectedFlagMobileSrc = $(this).find("img").attr("src");
+          var selectedFlagMobileAlt = $(this).find("img").attr("alt");
+          var selectedCountryMobile = $(this).attr("data-country");
+          $(".select-region .flag-img").attr("src", selectedFlagSrc);
+          $(".select-flag-mobile  li .tick-icon-mobile").css(
+            "visibility",
+            "hidden"
+          );
+          $(".flex .country-name-mobile").css("color", "#666666");
+
+          $(this).find(".tick-icon-mobile").css("visibility", "visible");
+          $(this).find(".country-name-mobile").css("color", " #202020");
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        var animation = null;
+        var animationPlayed = false;
+        $("#register-button").click(function () {
+          if (!animation) {
+            animation = bodymovin.loadAnimation({
+              container: document.getElementById("lottie-animation"),
+              renderer: "svg",
+              loop: false,
+              autoplay: false,
+              path: "/assets/Success.json",
+            });
+          }
+
+          if (!animationPlayed) {
+            animation.play();
+            animationPlayed = true;
+          } else {
+            animation.goToAndPlay(0);
+          }
+          $("#success-lottie").css("display", "block");
+        });
+      });
+
+      $(document).ready(function () {
+        var isOpen = true;
+        $(".no .tick-icon").css("visibility", "visible");
+        $(" .no .flex  .country-name").css("color", " #202020");
+
+        $(".custom-select .selected-option").click(function () {
+          $(".flag-options").toggle();
+
+          if (isOpen) {
+            $(".dropdown").css("transform", "rotate(180deg)");
+          } else {
+            $(".dropdown").css("transform", "rotate(0deg)");
+          }
+
+          isOpen = !isOpen;
+        });
+
+        $(".custom-select .flag-options li").click(function () {
+          var selectedFlagMobileSrc = $(this).find("img").attr("src");
+          var selectedFlagMobileAlt = $(this).find("img").attr("alt");
+          var selectedCountryMobile = $(this).attr("data-country");
+          $(".select-region .flag-img").attr("src", selectedFlagMobileSrc);
+
+          $(this).find(".tick-icon-mobile").css("visibility", "visible");
+          $(this).find(".country-name-mobile").css("color", " #202020");
+          var text = $(this).text().toString().trim();
+          if (text.toLowerCase() == "australia") {
+            $("#tick-icon-mobile-1").css("visibility", "visible");
+            $("#tick-icon-mobile-2").css("visibility", "hidden");
+            $("#tick-icon-mobile-3").css("visibility", "hidden");
+            $("#country-name-mobile-1").css("color", "#202020");
+            $("#country-name-mobile-2").css("color", "#666666");
+            $("#country-name-mobile-3").css("color", "#666666");
+          } else if (text == "United States") {
+            $("#tick-icon-mobile-2").css("visibility", "visible");
+            $("#tick-icon-mobile-1").css("visibility", "hidden");
+            $("#tick-icon-mobile-3").css("visibility", "hidden");
+            $("#country-name-mobile-2").css("color", "#202020");
+            $("#country-name-mobile-1").css("color", "#666666");
+            $("#country-name-mobile-3").css("color", "#666666");
+          } else {
+            $("#tick-icon-mobile-3").css("visibility", "visible");
+            $("#tick-icon-mobile-1").css("visibility", "hidden");
+            $("#tick-icon-mobile-2").css("visibility", "hidden");
+            $("#country-name-mobile-3").css("color", "#202020");
+            $("#country-name-mobile-2").css("color", "#666666");
+            $("#country-name-mobile-1").css("color", "#666666");
+          }
+          //
+          var selectedFlagSrc = $(this).find("img").attr("src");
+          var selectedFlagAlt = $(this).find("img").attr("alt");
+          var selectedCountry = $(this).attr("data-country");
+          $(".selected-flag .flag-img").attr("src", selectedFlagSrc);
+          $(".selected-option .flag-img").attr("src", selectedFlagSrc);
+          $(".flag-options li .tick-icon").css("visibility", "hidden");
+          $(".flex .country-name").css("color", "#666666");
+          $(".dropdown").css("transform", "rotate(180deg)");
+          $(this).find(".tick-icon").css("visibility", "visible");
+          $(this).find(".country-name").css("color", " #202020");
+          $(".flag-options").hide();
+          if (isOpen) {
+            $(".dropdown").css("transform", "rotate(180deg)");
+          } else {
+            $(".dropdown").css("transform", "rotate(0deg)");
+          }
+
+          isOpen = !isOpen;
+          // $(".dropdown").css("transform", "rotate(0deg)");
+        });
+
+        $(document).click(function (e) {
+          var container = $(".custom-select");
+          if (!container.is(e.target) && container.has(e.target).length === 0) {
+            $(".flag-options").hide();
+            if (isOpen) {
+              $(".dropdown").css("transform", "rotate(180deg)");
+            } else {
+              $(".dropdown").css("transform", "rotate(0deg)");
+            }
+
+            isOpen = !isOpen;
+            // $(".dropdown").css("transform", "rotate(0deg)");
+          }
+        });
+      });
+      $(document).ready(function () {
+        $("#open-modal-btn").click(function () {
+          $(".dropdown").css("transform", "rotate(0deg)");
+
+          $("#modal").fadeIn();
+          $(".flag-options").hide();
+          $("#modal").css("display", "flex");
+        });
+        $("#open-modal-btn-mobile").click(function () {
+          $(".dropdown").css("transform", "rotate(0deg)");
+
+          $("#modal").fadeIn();
+          $(".flag-options").hide();
+          $("#modal").css("display", "flex");
+        });
+        $(" .modal").click(function (e) {
+          if (e.target === this) {
+            $("#modal").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+
+        $(".modal-success").click(function (e) {
+          if (e.target === this) {
+            $("#modal-success").fadeOut();
+            $(".clear-button").css("display", "none");
+            $("#email").val("");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+      });
+
+      $(document).ready(function () {
+        $("#email").val("");
+        $(".clear-button").css("display", "none");
+        $('.no-touch input[type="submit"]:hover').css(
+          "background",
+          "#c5c5c5 !important"
+        );
+        $("#email").on("input", function () {
+          var email = $(this).val();
+          if (email.trim() !== "") {
+            $(".clear-button").css("display", "flex");
+            $('input[type="submit"]').prop("disabled", false);
+            $('input[type="submit"]').css("background-color", "#38DBD0");
+
+            $('input[type="submit"]:hover').css(
+              "background",
+              "#38DBD0 !important"
+            );
+            $("#register-button").removeClass('input[type="submit"]:hover');
+            $('input[type="submit"]').hover(function () {
+              $(this).css("background", "#38DBD0 !important");
+            });
+          } else {
+            $(".clear-button").css("display", "none");
+            $('input[type="submit"]').prop("disabled", true);
+            $('input[type="submit"]').css("background-color", "#c5c5c5");
+          }
+        });
+        $("#registration-form").submit(function (event) {
+          event.preventDefault();
+          var email = $("#email").val();
+
+          // if (!isValidEmail(email)) {
+          //   console.log("41234");
+          //   $("#email").css("background", "red");
+          //   return;
+          // }
+
+          $("#email").val("");
+
+          $("#email").removeClass("valid-input");
+          $('input[type="submit"]').prop("disabled", true);
+          $(".modal-success").css("display", "flex");
+          $(".modal").css("display", "none");
+          $('input[type="submit"]').css("background-color", "#c5c5c5");
+        });
+
+        $(".continue").click(function () {
+          $(".modal").css("display", "none");
+          $(".modal-success").css("display", "none");
+          $(".clear-button").css("display", "none");
+        });
+        $(".clear-button").click(function () {
+          $("#email").val("");
+          $('input[type="submit"]').prop("disabled", true);
+          $('input[type="submit"]').css("background-color", "#c5c5c5");
+          $(".clear-button").css("display", "none");
+        });
+
+        $("#email").focus();
+
+        function isValidEmail(email) {
+          // Regular expression for email validation
+          var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          return emailPattern.test(email);
+        }
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+  </body>
+</html>
